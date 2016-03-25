@@ -1,4 +1,5 @@
 (ns data-feed.main
+  (:gen-class)
   (:require [data-feed.core :as core]))
 
 (defn -main

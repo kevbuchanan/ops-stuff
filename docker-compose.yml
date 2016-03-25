@@ -26,6 +26,8 @@ services:
 
   elasticsearch:
     image: 'elasticsearch:latest'
+    volumes:
+      - ./config/elasticshearch:/usr/share/elasticsearch/config
 
   kibana:
     image: 'kibana:latest'
