@@ -1,9 +1,16 @@
 require 'sinatra/base'
-require 'logger'
+require 'demo/logger'
 
 module Demo
   class App < Sinatra::Base
-    Logger = ::Logger.new(STDOUT)
+    get '/heartbeat' do
+      heartbeat = File.expand_path('../../../public/heartbeat', __FILE__)
+      if File.exist?(heartbeat)
+        [200, "OK"]
+      else
+        [503, "Unavailable"]
+      end
+    end
 
     get '/' do
       Logger.info('Received request')
