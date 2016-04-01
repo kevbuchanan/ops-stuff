@@ -50,13 +50,6 @@ structure
 
 - Dlite as alternative to docker-machine?
 
-- Talk to
-  - Javier
-  - Myles
-  - Rob L
-  - Brian
-
-- 8th Light repo
 - ops playground
 - challenges?
 - have people contribute
