@@ -1,0 +1,9 @@
+from ubuntu:wily
+
+RUN apt-get update
+RUN apt-get install -y git
+RUN apt-get install -y iputils-ping
+
+WORKDIR /root
+
+CMD ["/bin/bash"]

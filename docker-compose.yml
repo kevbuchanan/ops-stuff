@@ -1,5 +1,16 @@
 version: '2'
 services:
+  dev:
+    build:
+      context: .
+      dockerfile: dev.docker
+    container_name: dev
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./config/dev/.bashrc:/root/.bashrc
+      - ./apps:/root/apps
+
   web1:
     build:
       context: .
@@ -24,7 +35,7 @@ services:
     ports:
       - "3000:80"
 
-  data1:
+  utility1:
     build:
       context: .
       dockerfile: java.docker
