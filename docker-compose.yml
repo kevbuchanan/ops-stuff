@@ -1,33 +1,48 @@
 version: '2'
 services:
-  web-1:
+  web1:
     build:
-      context: '.'
-      dockerfile: 'Dockerfile-ruby'
+      context: .
+      dockerfile: ruby.docker
 
-  web-2:
+  web2:
     build:
-      context: '.'
-      dockerfile: 'Dockerfile-ruby'
+      context: .
+      dockerfile: ruby.docker
 
-  data-1:
+  web:
+    image: haproxy:latest
+    depends_on:
+      - web1
+      - web2
+    links:
+      - web1
+      - web2
+    command: bash -c "sleep 5 && haproxy -f /usr/local/etc/haproxy/haproxy.cfg"
+    volumes:
+      - ./config/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "3000:80"
+
+  data1:
     build:
-      context: '.'
-      dockerfile: 'Dockerfile-java'
-
-  ci:
-    image: 'jenkins:latest'
-
-  gitlab:
-    image: 'gitlab/gitlab-ce:latest'
+      context: .
+      dockerfile: java.docker
 
   logstash:
-    image: 'logstash:latest'
+    image: logstash:latest
 
   elasticsearch:
-    image: 'elasticsearch:latest'
+    image: elasticsearch:latest
     volumes:
       - ./config/elasticshearch:/usr/share/elasticsearch/config
 
   kibana:
-    image: 'kibana:latest'
+    image: kibana:latest
+
+  ci:
+    image: jenkins:latest
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+

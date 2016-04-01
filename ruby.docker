@@ -1,0 +1,23 @@
+from ruby:latest
+
+# Logstash forwarder
+RUN curl -L -O https://download.elastic.co/beats/filebeat/filebeat_1.1.2_amd64.deb
+RUN dpkg -i filebeat_1.1.2_amd64.deb
+
+# nginx
+RUN \
+  apt-get update && \
+  apt-get install -y nginx && \
+  rm -rf /var/lib/apt/lists/* && \
+  chown -R www-data:www-data /var/lib/nginx
+
+VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
+
+WORKDIR /etc/nginx
+
+COPY ./config/nginx/nginx.conf .
+
+CMD ["nginx"]
+
+EXPOSE 80
+EXPOSE 443
